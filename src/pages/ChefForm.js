@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './ChefForm.css';
 import MultiRangeSlider from '../components/ui/MultiRangeSlider';
+import { useTranslation } from 'react-i18next';
 
 function ChefForm() {
+    const { t,i18n } = useTranslation();
 
     const [filters, setFilters] = useState({
         city_1: '',
@@ -143,6 +145,10 @@ function ChefForm() {
         }
     }
 
+    const handleLangChange=(lang)=>{
+        i18n.changeLanguage(lang);
+    }
+
     // --------------functions ends----------------
 
     return (
@@ -151,8 +157,8 @@ function ChefForm() {
                 <div className="lang-and-profile-container">
                     <select
                         name="language"
-                        value={leadForm.language || 'en'}
-                        onChange={(e) => handleInputChange(e, 'leadForm')}
+                        // value={leadForm.language || 'en'}
+                        onChange={(e) => handleLangChange(e.target.value)}
                         className="language-select"
                     >
                         <option value="en">English</option>
@@ -165,11 +171,11 @@ function ChefForm() {
                 </div>
                 <h1 className="title">Chef</h1>
                 <div className="filters-container">
-                    <h2 className='sub-title-1'>Filters</h2>
+                    <h2 className='sub-title-1'>{t('ChefForm.Filters')}</h2>
                     <div className="filters">
                         {filterOptions.map((field, index) => (
                             <div key={index} className="input-group">
-                                <label htmlFor={field.name}>{field.label}</label>
+                                <label htmlFor={field.name}>{t(`ChefForm.${field.label.replace(' ','')}`)}</label>
                                 <input
                                     type={handelInputType(field.label)}
                                     id={field.name}
@@ -181,7 +187,7 @@ function ChefForm() {
                             </div>
                         ))}
                         <div className="input-group">
-                            <label htmlFor="salaryRange">Salary Range</label>
+                            <label htmlFor="salaryRange">{t('ChefForm.SalaryRange')}</label>
                             <MultiRangeSlider
                                 min={0}
                                 max={100000}
@@ -194,7 +200,7 @@ function ChefForm() {
                             />
                         </div>
                         <div className="input-group">
-                            <label htmlFor="remarks_1">Remarks</label>
+                            <label htmlFor="remarks_1">{t('ChefForm.Remarks')}</label>
                             <input
                                 type="text"
                                 id="remarks_1"
@@ -205,17 +211,17 @@ function ChefForm() {
                         </div>
                     </div>
                     <div className="button-group">
-                        <button className='reset-btn' onClick={handleReset}>Reset</button>
-                        <button className="search-btn" onClick={handelSearch}>Search</button>
+                        <button className='reset-btn' onClick={handleReset}>{t('ChefForm.Reset')}</button>
+                        <button className="search-btn" onClick={handelSearch}>{t('ChefForm.Search')}</button>
                     </div>
                 </div>
                 <div className="lead-form-container">
-                    <h2 className='sub-title-1'>Lead Form</h2>
-                    <h3 className='sub-title-2'>Basic Details</h3>
+                    <h2 className='sub-title-1'>{t('ChefForm.LeadForm')}</h2>
+                    <h3 className='sub-title-2'>{t('ChefForm.BasicDetails')}</h3>
                     <div className="lead-form">
                         {leadFormBasicDetails.map((field, index) => (
                             <div key={index} className="input-group">
-                                <label htmlFor={field.name}>{field.label}</label>
+                                <label htmlFor={field.name}>{t(field.label)}</label>
                                 <input
                                     type="text"
                                     id={field.name}
@@ -227,26 +233,26 @@ function ChefForm() {
                         ))}
                         <div></div>
                         <div className="input-group">
-                            <label>Role*</label>
+                            <label>{t('ChefForm.Role')}*</label>
                             <div>
                                 <div className='custom-checkbox-container'>
                                     <input className="custom-checkbox" type="checkbox" value="Chef" onChange={handleRoleChange} checked={leadForm.role.includes('Chef')} id="chefCheckBox" />
-                                    <label htmlFor="chefCheckBox">Chef</label>
+                                    <label htmlFor="chefCheckBox">{t('ChefForm.ChefRole')}</label>
                                 </div>
                                 <div className='custom-checkbox-container'>
                                     <input className="custom-checkbox" type="checkbox" value="Party Cook" onChange={handleRoleChange} checked={leadForm.role.includes('Party Cook')} id="partyCookCheckBox" />
-                                    <label htmlFor="partyCookCheckBox">Party Cook</label>
+                                    <label htmlFor="partyCookCheckBox">{t('ChefForm.PartyCookRole')}</label>
                                 </div>
                             </div>
                         </div>
                         <div></div>
                         <div></div>
                     </div>
-                    <h3 className='sub-title-2'>Professional Details</h3>
+                    <h3 className='sub-title-2'>{t('ChefForm.ProfessionalDetails')}</h3>
                     <div className='lead-form'>
                         {leadFormProfessionalDetails.map((field, index) => (
                             <div key={index} className="input-group">
-                                <label htmlFor={field.name}>{field.label}</label>
+                                <label htmlFor={field.name}>{t(`ChefForm.${field.label.replace(' '),''}`)}</label>
                                 <input
                                     type="text"
                                     id={field.name}
@@ -259,8 +265,8 @@ function ChefForm() {
                     </div>
                 </div>
                 <div className="button-group">
-                    <button className='clear-lead-btn' onClick={handleClearLead}>Clear Lead</button>
-                    <button className="add-lead-btn" onClick={handelAddLead}>Add Lead</button>
+                    <button className='clear-lead-btn' onClick={handleClearLead}>{t('ChefForm.ClearLead')}</button>
+                    <button className="add-lead-btn" onClick={handelAddLead}>{t('ChefForm.AddLead')}</button>
                 </div>
             </div>
         </>
