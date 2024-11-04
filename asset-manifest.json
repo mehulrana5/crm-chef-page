@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/crm-chef-page/static/css/main.986ebee6.css",
+    "main.js": "/crm-chef-page/static/js/main.b588818c.js",
+    "static/js/453.508c78c0.chunk.js": "/crm-chef-page/static/js/453.508c78c0.chunk.js",
+    "index.html": "/crm-chef-page/index.html",
+    "main.986ebee6.css.map": "/crm-chef-page/static/css/main.986ebee6.css.map",
+    "main.b588818c.js.map": "/crm-chef-page/static/js/main.b588818c.js.map",
+    "453.508c78c0.chunk.js.map": "/crm-chef-page/static/js/453.508c78c0.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.986ebee6.css",
+    "static/js/main.b588818c.js"
+  ]
+}
