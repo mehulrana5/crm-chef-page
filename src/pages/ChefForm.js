@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './ChefForm.css';
+import MultiRangeSlider from '../components/ui/MultiRangeSlider';
 
 function ChefForm() {
 
@@ -30,6 +31,8 @@ function ChefForm() {
         cuisines: '',
         sharedFor: '',
     });
+
+    const [filterReset, setFilterReset] = useState(false)
 
     const filterOptions = [
         { label: 'City', name: 'city_1' },
@@ -91,6 +94,7 @@ function ChefForm() {
             salaryRange: [0, 100000],
             remarks_1: '',
         });
+        setFilterReset(true)
     };
 
     const handleClearLead = () => {
@@ -138,123 +142,128 @@ function ChefForm() {
                 return ''
         }
     }
-    
+
     // --------------functions ends----------------
 
     return (
-        <div className="chef-form">
-            <div className="lang-and-profile-container">
-                <select
-                    name="language"
-                    value={leadForm.language || 'en'}
-                    onChange={(e) => handleInputChange(e, 'leadForm')}
-                    className="language-select"
-                >
-                    <option value="en">English</option>
-                    <option value="es">Spanish</option>
-                    <option value="fr">French</option>
-                </select>
-                <div className="user-icon">
-                    <img src="https://via.placeholder.com/56" alt="User Icon" />
+        <>
+            <div className="chef-form">
+                <div className="lang-and-profile-container">
+                    <select
+                        name="language"
+                        value={leadForm.language || 'en'}
+                        onChange={(e) => handleInputChange(e, 'leadForm')}
+                        className="language-select"
+                    >
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                    </select>
+                    <div className="user-icon">
+                        <img src="https://via.placeholder.com/56" alt="User Icon" />
+                    </div>
                 </div>
-            </div>
-            <h1 className="title">Chef</h1>
-            <div className="filters-container">
-                <h2 className='sub-title-1'>Filters</h2>
-                <div className="filters">
-                    {filterOptions.map((field, index) => (
-                        <div key={index} className="input-group">
-                            <label htmlFor={field.name}>{field.label}</label>
-                            <input
-                                type={handelInputType(field.label)}
-                                id={field.name}
-                                name={field.name}
-                                value={filters[field.name]}
-                                onChange={(e) => handleInputChange(e, 'filters')}
-                                pattern={handelInputPattern(field.label)}
+                <h1 className="title">Chef</h1>
+                <div className="filters-container">
+                    <h2 className='sub-title-1'>Filters</h2>
+                    <div className="filters">
+                        {filterOptions.map((field, index) => (
+                            <div key={index} className="input-group">
+                                <label htmlFor={field.name}>{field.label}</label>
+                                <input
+                                    type={handelInputType(field.label)}
+                                    id={field.name}
+                                    name={field.name}
+                                    value={filters[field.name]}
+                                    onChange={(e) => handleInputChange(e, 'filters')}
+                                    pattern={handelInputPattern(field.label)}
+                                />
+                            </div>
+                        ))}
+                        <div className="input-group">
+                            <label htmlFor="salaryRange">Salary Range</label>
+                            <MultiRangeSlider
+                                min={0}
+                                max={100000}
+                                onChange={({ min, max }) => {
+                                    setFilters({ ...filters, salaryRange: [min, max] })
+                                    setFilterReset(false)
+                                }}
+                                step={100}
+                                reset={filterReset}
                             />
                         </div>
-                    ))}
-                    <div className="input-group">
-                        <label htmlFor="salaryRange">Salary Range</label>
-                        <input
-                            type="range"
-                            id="salaryRange"
-                            name="salaryRange"
-                            min="0"
-                            max="100000"
-                            value={filters.salaryRange[1]}
-                            onChange={(e) => setFilters({ ...filters, salaryRange: [0, e.target.value] })}
-                        />
+                        <div className="input-group">
+                            <label htmlFor="remarks_1">Remarks</label>
+                            <input
+                                type="text"
+                                id="remarks_1"
+                                name="remarks_1"
+                                value={filters.remarks_1}
+                                onChange={(e) => handleInputChange(e, 'filters')}
+                            />
+                        </div>
                     </div>
-                    <div className="input-group">
-                        <label htmlFor="remarks_1">Remarks</label>
-                        <input
-                            type="text"
-                            id="remarks_1"
-                            name="remarks_1"
-                            value={filters.remarks_1}
-                            onChange={(e) => handleInputChange(e, 'filters')}
-                        />
+                    <div className="button-group">
+                        <button className='reset-btn' onClick={handleReset}>Reset</button>
+                        <button className="search-btn" onClick={handelSearch}>Search</button>
+                    </div>
+                </div>
+                <div className="lead-form-container">
+                    <h2 className='sub-title-1'>Lead Form</h2>
+                    <h3 className='sub-title-2'>Basic Details</h3>
+                    <div className="lead-form">
+                        {leadFormBasicDetails.map((field, index) => (
+                            <div key={index} className="input-group">
+                                <label htmlFor={field.name}>{field.label}</label>
+                                <input
+                                    type="text"
+                                    id={field.name}
+                                    name={field.name}
+                                    value={leadForm[field.name]}
+                                    onChange={(e) => handleInputChange(e, 'leadForm')}
+                                />
+                            </div>
+                        ))}
+                        <div></div>
+                        <div className="input-group">
+                            <label>Role*</label>
+                            <div>
+                                <div className='custom-checkbox-container'>
+                                    <input className="custom-checkbox" type="checkbox" value="Chef" onChange={handleRoleChange} checked={leadForm.role.includes('Chef')} id="chefCheckBox" />
+                                    <label htmlFor="chefCheckBox">Chef</label>
+                                </div>
+                                <div className='custom-checkbox-container'>
+                                    <input className="custom-checkbox" type="checkbox" value="Party Cook" onChange={handleRoleChange} checked={leadForm.role.includes('Party Cook')} id="partyCookCheckBox" />
+                                    <label htmlFor="partyCookCheckBox">Party Cook</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <h3 className='sub-title-2'>Professional Details</h3>
+                    <div className='lead-form'>
+                        {leadFormProfessionalDetails.map((field, index) => (
+                            <div key={index} className="input-group">
+                                <label htmlFor={field.name}>{field.label}</label>
+                                <input
+                                    type="text"
+                                    id={field.name}
+                                    name={field.name}
+                                    value={leadForm[field.name]}
+                                    onChange={(e) => handleInputChange(e, 'leadForm')}
+                                />
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <div className="button-group">
-                    <button className='reset-btn' onClick={handleReset}>Reset</button>
-                    <button className="search-btn" onClick={handelSearch}>Search</button>
+                    <button className='clear-lead-btn' onClick={handleClearLead}>Clear Lead</button>
+                    <button className="add-lead-btn" onClick={handelAddLead}>Add Lead</button>
                 </div>
             </div>
-            <div className="lead-form-container">
-                <h2 className='sub-title-1'>Lead Form</h2>
-                <h3 className='sub-title-2'>Basic Details</h3>
-                <div className="lead-form">
-                    {leadFormBasicDetails.map((field, index) => (
-                        <div key={index} className="input-group">
-                            <label htmlFor={field.name}>{field.label}</label>
-                            <input
-                                type="text"
-                                id={field.name}
-                                name={field.name}
-                                value={leadForm[field.name]}
-                                onChange={(e) => handleInputChange(e, 'leadForm')}
-                            />
-                        </div>
-                    ))}
-                    <div></div>
-                    <div className="input-group">
-                        <label>Role*</label>
-                        <div>
-                            <div>
-                                <input type="checkbox" value="Chef" onChange={handleRoleChange} checked={leadForm.role.includes('Chef')} id='chefCheckBox' /> <label htmlFor="chefCheckBox">Chef</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" value="Party Cook" onChange={handleRoleChange} checked={leadForm.role.includes('Party Cook')} id='partyCookCheckBox' /> <label htmlFor="partyCookCheckBox">Party Cook</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <h3 className='sub-title-2'>Professional Details</h3>
-                <div className='lead-form'>
-                    {leadFormProfessionalDetails.map((field, index) => (
-                        <div key={index} className="input-group">
-                            <label htmlFor={field.name}>{field.label}</label>
-                            <input
-                                type="text"
-                                id={field.name}
-                                name={field.name}
-                                value={leadForm[field.name]}
-                                onChange={(e) => handleInputChange(e, 'leadForm')}
-                            />
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <div className="button-group">
-                <button className='clear-lead-btn' onClick={handleClearLead}>Clear Lead</button>
-                <button className="add-lead-btn" onClick={handelAddLead}>Add Lead</button>
-            </div>
-        </div>
+        </>
     );
 }
 
