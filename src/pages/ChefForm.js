@@ -252,7 +252,7 @@ function ChefForm() {
                     <div className='lead-form'>
                         {leadFormProfessionalDetails.map((field, index) => (
                             <div key={index} className="input-group">
-                                <label htmlFor={field.name}>{t(`ChefForm.${field.label.replace(' '),''}`)}</label>
+                                <label htmlFor={field.name}>{t(`ChefForm.${field.label.replace(' ','')}`)}</label>
                                 <input
                                     type="text"
                                     id={field.name}
