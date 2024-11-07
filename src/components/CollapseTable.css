@@ -1,0 +1,39 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    text-align: left;
+    padding: 1.2vw;
+}
+tr{
+    border-bottom: 1px solid #dddddd;
+    width: 100%;
+}
+tr:hover{
+    background-color: #F5F5F7;
+}
+
+/* Hover will only work on devices with mouse */
+@media (hover:hover) {
+    tr:hover{
+        background-color: #F5F5F7;
+    }
+}
+
+@media screen and (max-width: 1115px) {
+    thead{
+        display: none;
+    }
+    table,tbody,tr,td{
+        display: block;
+        text-align: right;
+    }
+    td::before{
+        content: attr(data-label);
+        position: absolute;
+        left: 15%;
+    }
+}
